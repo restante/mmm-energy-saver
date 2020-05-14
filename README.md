@@ -21,7 +21,7 @@ By design, this module has fairly limited functionality - which is nice because 
 
 ## Installing the module
 
-1) Run `git clone https://github.com/michael5r/mmm-energy-saver.git` from inside your `MagicMirror/modules` folder.
+1) Run `git clone https://github.com/restante/mmm-energy-saver.git` from inside your `MagicMirror/modules` folder.
 2) Run `cd mmm-energy-saver` in the same terminal window, then `npm install` to install the required Node modules.
 
 
@@ -30,7 +30,7 @@ To use this module, simply add it to the `modules` array in the MagicMirror `con
 
 ```js
 {
-    module: "mmm-energy-saver",
+    module: "MMM-Energy-Saver",
     config: {
         // ... whatever configuration options you want to use
     }

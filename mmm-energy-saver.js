@@ -1,15 +1,15 @@
 /* global Module */
 
 /* Magic Mirror
- * Module: mmm-energy-saver
+ * Module: MMM-Energy-Saver
  *
- * By Michael Schmidt
- * https://github.com/michael5r
+ * By Claudio Restante
+ * https://github.com/restante
  *
  * MIT Licensed.
  */
 
-Module.register('mmm-energy-saver', {
+Module.register('MMM-Energy-Saver', {
 
     defaults: {
         timeoutInSeconds: 300,        // this is in seconds (not ms)
@@ -17,7 +17,9 @@ Module.register('mmm-energy-saver', {
         monitorOn: '00 30 7 * * *',   // on at 07:30 am
         monitorOff: '00 30 23 * * *', // off at 11:30 pm
         animationSpeed: 2 * 1000,
-        version: '1.0.0'
+        version: '1.0.0',
+        exceptModules: [],
+
     },
 
     start: function() {
@@ -29,6 +31,7 @@ Module.register('mmm-energy-saver', {
         this.sleepTimer = null;
         this.sleeping = false;
         this.deepSleep = false; // when the monitor is off
+       
 
     },
 
@@ -39,18 +42,20 @@ Module.register('mmm-energy-saver', {
         if (notification === 'DOM_OBJECTS_CREATED') {
 
             this.sendSocketNotification('MMM_ENERGY_SAVER_INIT', true);
-
+            clearTimeout(this.sleepTimer);
+            self.sendSuspend();
         } else if (notification === 'USER_PRESENCE') {
 
-            if ((payload === true) && (!this.deepSleep)) {
-                if (this.sleeping) {
-                    this.sendResume();
-                } else {
+            if ( !this.deepSleep) {
+                    if (self.sleeping) {
+                        this.sendResume();
+                    }
+                    
                     clearTimeout(this.sleepTimer);
                     this.sleepTimer = setTimeout(function() {
                         self.sendSuspend();
                     }, self.config.timeoutInSeconds * 1000);
-                }
+                
             }
 
         }
@@ -92,11 +97,14 @@ Module.register('mmm-energy-saver', {
 
             // hide all modules
             MM.getModules().exceptModule(this).enumerate(function(module) {
-                module.hide(self.config.animationSpeed);
+                if (self.config.exceptModules.indexOf(module.name) === -1) {
+                    module.hide(self.config.animationSpeed);
+                    console.log(self.name + ' has suspended ' + module.name);
+                }
             });
 
             // send notification
-            console.log(self.name + ' has suspended all modules ...');
+            
             this.sendNotification('MMM_ENERGY_SAVER', 'suspend');
 
         }
@@ -113,11 +121,14 @@ Module.register('mmm-energy-saver', {
 
             // show all modules
             MM.getModules().exceptModule(this).enumerate(function(module) {
-                module.show(self.config.animationSpeed);
+                if (self.config.exceptModules.indexOf(module.name) === -1) {
+                    module.show(self.config.animationSpeed);
+                    console.log(self.name + ' has resumed ' + module.name);
+                }
             });
 
             // send notification
-            console.log(self.name + ' has resumed all modules ...');
+            
             this.sendNotification('MMM_ENERGY_SAVER', 'resume');
 
         }

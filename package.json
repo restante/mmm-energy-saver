@@ -1,21 +1,21 @@
 {
-  "name": "mmm-energy-saver",
+  "name": "MMM-Energy-Saver",
   "version": "1.0.0",
   "description": "Energy saver module for MagicMirror",
-  "main": "mmm-energy-saver.js",
+  "main": "MMM-Energy-Saver.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/michael5r/mmm-energy-saver.git"
+    "url": "git+https://github.com/restante/mmm-energy-saver.git"
   },
   "engines": {
     "node": ">=8.9.0"
   },
-  "author": "Michael Schmidt",
+  "author": "Claudio Restante",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/michael5r/mmm-energy-saver/issues"
+    "url": "https://github.com/restante/mmm-energy-saver/issues"
   },
-  "homepage": "https://github.com/michael5r/mmm-energy-saver#readme",
+  "homepage": "https://github.com/restante/mmm-energy-saver#readme",
   "dependencies": {
     "cron": "^1.6.0"
   }
